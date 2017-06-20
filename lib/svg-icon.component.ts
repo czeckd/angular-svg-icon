@@ -28,7 +28,9 @@ export class SvgIconComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.icnSub.unsubscribe();
+		if (this.icnSub) {
+			this.icnSub.unsubscribe();
+		}
 	}
 
 	private setSvg(svg:SVGElement) {
