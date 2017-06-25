@@ -1,5 +1,7 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, Optional, Renderer, SkipSelf } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Optional, Renderer, Renderer2, SkipSelf } from '@angular/core';
 import { Http } from '@angular/http';
+import { PLATFORM_ID,Inject } from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 import { Subscription } from 'rxjs/Subscription';
 
@@ -17,8 +19,13 @@ export class SvgIconComponent implements OnInit, OnDestroy {
 
 	private icnSub:Subscription;
 
-	constructor(private element:ElementRef, private renderer:Renderer,
-		private iconReg:SvgIconRegistryService) {
+	constructor(
+		private element:ElementRef, 
+		private renderer:Renderer,
+		private renderer2: Renderer2,
+		private iconReg:SvgIconRegistryService,
+		@Inject(PLATFORM_ID) private platformId: Object
+	) {
 	}
 
 	ngOnInit() {
@@ -32,10 +39,15 @@ export class SvgIconComponent implements OnInit, OnDestroy {
 	}
 
 	private setSvg(svg:SVGElement) {
-		const icon = <SVGElement>svg.cloneNode(true);
-		let elem = this.element.nativeElement;
-		elem.innerHTML = '';
-		this.renderer.projectNodes(elem, [icon]);
+		if (isPlatformBrowser(this.platformId)) {
+			//this line need to be improve to not depend of the browser(client)
+			//and send the svg from the server
+			const icon = <SVGElement>svg.cloneNode(true);
+			
+			let elem = this.element.nativeElement;
+			elem.innerHTML = '';
+			this.renderer2.appendChild(elem, icon);
+		}
 	}
 }
 
