@@ -1,5 +1,8 @@
-import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+
+import { Injectable, Optional, RendererFactory2, ViewEncapsulation, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -16,7 +19,11 @@ export class SvgIconRegistryService {
 	private iconsByUrl = new Map<string, SVGElement>();
 	private iconsLoadingByUrl = new Map<string, Observable<SVGElement>>();
 
-	constructor(private http:Http) {
+	constructor(
+		private http:Http,
+		private rendererFactory: RendererFactory2,
+		@Inject(DOCUMENT) private document
+	) {
 	}
 
 	loadSvg(url:string): Observable<SVGElement> {
@@ -28,9 +35,21 @@ export class SvgIconRegistryService {
 		} else {
 			const o = <Observable<SVGElement>> this.http.get( url )
 				.map( (res:Response) => {
-					const div = document.createElement('DIV');
-					div.innerHTML = res.text();
-					return <SVGElement>div.querySelector('svg');
+					try {
+						const renderer = this.rendererFactory.createRenderer(this.document, {
+							id: '-1',
+							encapsulation: ViewEncapsulation.None,
+							styles: [],
+							data: {}
+						});
+
+						const div = renderer.createElement('div');
+						renderer.setProperty(div,'innerHTML',res.text());
+						return <SVGElement> div ;
+
+					} catch (e) {
+						console.error('Error within linkService : ', e);
+					}
 				})
 				.do(svg => {
 					this.iconsByUrl.set(url, svg);
