@@ -75,6 +75,7 @@ export class SvgIconRegistryService {
 		const spriteElement: SVGSVGElement = svg.querySelector(`#${symbolID}`);
 		svgElement.setAttribute('width', spriteElement.viewBox.baseVal.width + 'px');
 		svgElement.setAttribute('height', spriteElement.viewBox.baseVal.height + 'px');
+    svgElement.setAttribute('viewBox', spriteElement.getAttribute('viewBox'));
 		for (let i = 0 ; i < spriteElement.childNodes.length; i++) {
 			svgElement.appendChild(spriteElement.childNodes[i].cloneNode(true));
 		}
