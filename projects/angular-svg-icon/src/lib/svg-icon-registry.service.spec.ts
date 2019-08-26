@@ -18,7 +18,7 @@ describe('SvgIconRegistryService', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			providers: [
-				{ provide: SvgLoader, userValue: mockSvgLoader },
+				{ provide: SvgLoader, useValue: mockSvgLoader },
 				{ provide: PLATFORM_ID, useValue: 'browser' }
 			]
 		});

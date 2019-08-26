@@ -19,7 +19,7 @@
     "build": "ng build",
     "dist": "ng build angular-svg-icon && cp README.md LICENSE ./dist/angular-svg-icon/",
     "test": "ng test --source-map=false angular-svg-icon",
-    "coverage": "ng test --code-coverage angular-svg-icon",
+    "coverage": "ng test --no-watch --code-coverage angular-svg-icon",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
