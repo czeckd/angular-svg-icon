@@ -31,34 +31,28 @@ input {
 	font-size: 14px;
 }
 
-
 .red {
 	fill: red;
 }
 
-svg-icon.red {
-	width: 90px;
-	float: left;
+svg.red {
+	transform: rotate(90deg);
 }
 
 .green {
 	fill: green;
 }
 
-svg-icon.green {
-	width: 90px;
-	float: left;
-	margin-left: 20px;
+svg.green {
+	transform: rotate(90deg);
 }
 
 .blue {
 	fill: blue;
 }
 
-svg-icon.blue {
-	width: 90px;
-	float: left;
-	margin-left: 20px;
+svg.blue {
+	transform: rotate(90deg);
 }
 
 pre {
