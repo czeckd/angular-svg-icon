@@ -73,6 +73,7 @@
 		<div class="bulb">
 			<svg-icon src="assets/images/lightbulb.svg" [svgClass]="svgKlass" [class]="klass" [applyClass]="applied"></svg-icon>
 		</div>
+		<p class="bulb" [ngClass]="klass">{{klass}}</p>
 
 		<pre>&lt;svg-icon src="assets/images/lightbulb.svg" [svgClass]="{{svgKlass}}"
   [class]="{{klass}}" [applyClass]="{{applied|json}}"&gt;

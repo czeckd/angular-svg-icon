@@ -32,27 +32,30 @@ input {
 }
 
 .red {
-	fill: red;
+	color: red;
 }
 
 svg.red {
-	transform: rotate(90deg);
+	fill: red;
+//	transform: rotate(90deg);
 }
 
 .green {
-	fill: green;
+	color: green;
 }
 
 svg.green {
-	transform: rotate(90deg);
+	fill: green;
+//	transform: rotate(90deg);
 }
 
 .blue {
-	fill: blue;
+	color: blue;
 }
 
 svg.blue {
-	transform: rotate(90deg);
+	fill: blue;
+//	transform: rotate(90deg);
 }
 
 pre {
@@ -132,6 +135,15 @@ code {
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
+}
+
+p.bulb
+{
+	border: 0;
+	min-height: 1em;
+	max-height: 1em;
+	margin: 2px;
+	font-weight: 600;
 }
 
 select {
