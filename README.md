@@ -3,7 +3,7 @@
 Angular SVG Icon
 =========
 
-The **angular-svg-icon** is an Angular 11 service and component that provides a
+The **angular-svg-icon** is an Angular 12 service and component that provides a
 means to inline SVG files to allow for them to be easily styled by CSS and code.
 
 The service provides an icon registery that loads and caches a SVG indexed by
@@ -19,6 +19,7 @@ This [demo](https://czeckd.github.io/angular-svg-icon/) shows this module in act
 $ npm i angular-svg-icon --save
 ```
 **Note on earlier versions of Angular:** 
+- For Angular 11, use angular-svg-icon@11.2.0
 - For Angular 10, use angular-svg-icon@10.0.0
 - For Angular 9, use angular-svg-icon@9.2.0
 - For Angular 8, use angular-svg-icon@8.0.0
@@ -233,6 +234,22 @@ export class SvgBrowserLoader implements SvgLoader {
 This is executed on browser side. Note that the fallback when no data is
 available uses `SvgHttpLoader`, which is also the default loader if you don't
 provide one.
+
+## Example Project with Angular Universal and `angular-svg-icon`
+
+An Angular Universal [example project](https://github.com/edulelis/demo-universal-angular-svg-loader) is also available. The basic steps to get it work is:
+
+1. Add this snippet to the `package.json` file to prevent compilation issues:
+```js
+        "browser": {
+          "fs": false,
+          "path": false,
+          "os": false
+        }
+```
+2. Add `ServerTransferStateModule` to `app.server.module`
+3. Add `BrowserTransferStateModule` to `app.module`
+4. The loader should be different per platform, so the factory should receive the `PLATFORM_ID` and load the correct class appropriately (this is already added in the example).
 
 ## SVG Preparation
 The SVG should be modified to remove the height and width attributes from the file
