@@ -26,36 +26,65 @@ input {
 	margin: 0 12px 0 4px;
 }
 
+div.example {
+	width: 500px;
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 14px;
+
+	> * {
+		width: 90px;
+	}
+
+	/* Have svg be correct color */
+	.red {
+		fill: red;
+	}
+	.green {
+		fill: green;
+	}
+	.blue {
+		fill: blue;
+	}
+}
+
 .explain {
 	max-width: 500px;
 	font-size: 14px;
 }
 
+/* Text only color */
 .red {
 	color: red;
 }
 
+/* svg fll color */
 svg.red {
 	fill: red;
-//	transform: rotate(90deg);
+//	fill: #00ffff;
 }
 
+
+/* Text only color */
 .green {
 	color: green;
 }
 
+/* svg fll color */
 svg.green {
 	fill: green;
-//	transform: rotate(90deg);
+//	fill: #ff00ff;
 }
 
+/* Text only color */
 .blue {
 	color: blue;
 }
 
+/* svg fll color */
 svg.blue {
 	fill: blue;
-//	transform: rotate(90deg);
+//	fill: #ffff00;
 }
 
 pre {
