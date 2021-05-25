@@ -17,7 +17,7 @@ export class SvgIconRegistryService {
 	constructor(
 		private loader: SvgLoader,
 		@Inject(PLATFORM_ID) private platformId: Object,
-		@Optional() @Inject(SERVER_URL) protected serverUrl: string,
+		@Optional() @Inject(SERVER_URL) protected serverUrl: string | undefined,
 		@Optional() @Inject(DOCUMENT) private _document: any) {
 		this.document = this._document;
 	}
@@ -33,7 +33,7 @@ export class SvgIconRegistryService {
 	}
 
 	/** Load a SVG to the registry from a URL. */
-	loadSvg(url: string, name: string = url): Observable<SVGElement> {
+	loadSvg(url: string, name: string = url): Observable<SVGElement|undefined> | undefined {
 
 		// not sure if there should be a possibility to use name for server usage
 		// so overriding it for now if provided
@@ -68,7 +68,7 @@ export class SvgIconRegistryService {
 	}
 
 	/** Get loaded SVG from registry by name. (also works by url because of blended map) */
-	getSvgByName(name: string): Observable<SVGElement> {
+	getSvgByName(name: string): Observable<SVGElement|undefined> | undefined {
 		if (this.iconsByUrl.has(name)) {
 			return observableOf(this.iconsByUrl.get(name));
 		} else if (this.iconsLoadingByUrl.has(name)) {
@@ -91,7 +91,7 @@ export function SVG_ICON_REGISTRY_PROVIDER_FACTORY(
 		platformId: object,
 		serverUrl?: string,
 		document?: any) {
-	return parentRegistry || new SvgIconRegistryService(loader, platformId,  serverUrl, document);
+	return parentRegistry || new SvgIconRegistryService(loader, platformId, serverUrl, document);
 }
 
 export const SVG_ICON_REGISTRY_PROVIDER = {

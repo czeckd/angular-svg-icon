@@ -26,39 +26,65 @@ input {
 	margin: 0 12px 0 4px;
 }
 
+div.example {
+	width: 500px;
+	display: inline-flex;
+	flex-wrap: wrap;
+	gap: 14px;
+
+	> * {
+		width: 90px;
+	}
+
+	/* Have svg be correct color */
+	.red {
+		fill: red;
+	}
+	.green {
+		fill: green;
+	}
+	.blue {
+		fill: blue;
+	}
+}
+
 .explain {
 	max-width: 500px;
 	font-size: 14px;
 }
 
-
+/* Text only color */
 .red {
+	color: red;
+}
+
+/* svg fll color */
+svg.red {
 	fill: red;
+//	fill: #00ffff;
 }
 
-svg-icon.red {
-	width: 90px;
-	float: left;
-}
 
+/* Text only color */
 .green {
+	color: green;
+}
+
+/* svg fll color */
+svg.green {
 	fill: green;
+//	fill: #ff00ff;
 }
 
-svg-icon.green {
-	width: 90px;
-	float: left;
-	margin-left: 20px;
-}
-
+/* Text only color */
 .blue {
-	fill: blue;
+	color: blue;
 }
 
-svg-icon.blue {
-	width: 90px;
-	float: left;
-	margin-left: 20px;
+/* svg fll color */
+svg.blue {
+	fill: blue;
+//	fill: #ffff00;
 }
 
 pre {
@@ -138,6 +164,15 @@ code {
 	flex-direction: column;
 	justify-content: center;
 	text-align: center;
+}
+
+p.bulb
+{
+	border: 0;
+	min-height: 1em;
+	max-height: 1em;
+	margin: 2px;
+	font-weight: 600;
 }
 
 select {

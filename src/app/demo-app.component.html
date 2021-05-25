@@ -1,6 +1,6 @@
 <div class="portal">
 
-	<div style="width:500px;display: flex;">
+	<div class="example"> <!-- style="width:500px;display: flex;"> -->
 		<svg-icon src="assets/images/eye.svg" class="red"></svg-icon>
 		<svg-icon src="assets/images/eye.svg" class="green" style="transform: scaleX(-1);"></svg-icon>
 		<svg-icon src="assets/images/eye.svg" class="blue"></svg-icon>
@@ -73,6 +73,7 @@
 		<div class="bulb">
 			<svg-icon src="assets/images/lightbulb.svg" [svgClass]="svgKlass" [class]="klass" [applyClass]="applied"></svg-icon>
 		</div>
+		<p class="bulb" [ngClass]="klass">{{klass}}</p>
 
 		<pre>&lt;svg-icon src="assets/images/lightbulb.svg" [svgClass]="{{svgKlass}}"
   [class]="{{klass}}" [applyClass]="{{applied|json}}"&gt;
@@ -88,7 +89,6 @@
 
 		<button (click)="applied = !applied">{{applied ? 'ignore class' : 'apply class'}}</button>
 	</div>
-
 
 	<div class="explain">
 		<h2>Apply class to different SVG parts</h2>
