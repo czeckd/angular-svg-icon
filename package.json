@@ -16,7 +16,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --configuration production",
-    "build": "ng build",
+    "build": "ng build --configuration production",
     "dist": "ng build --configuration production angular-svg-icon && cp README.md LICENSE ./dist/angular-svg-icon/",
     "test": "ng test --source-map=false angular-svg-icon",
     "coverage": "ng test --code-coverage angular-svg-icon",
