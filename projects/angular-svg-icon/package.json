@@ -1,7 +1,7 @@
 {
   "name": "angular-svg-icon",
-  "description": "Angular 12 component for inlining SVGs allowing them to be easily styled with CSS.",
-  "version": "12.0.0",
+  "description": "Angular 13 component for inlining SVGs allowing them to be easily styled with CSS.",
+  "version": "13.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/czeckd/angular-svg-icon.git"
@@ -14,11 +14,11 @@
     "icon"
   ],
   "peerDependencies": {
-    "@angular/core": ">=12.0.0",
-    "@angular/common": ">=12.0.0",
-    "rxjs": ">=6.6.0"
+    "@angular/core": ">=13.0.0",
+    "@angular/common": ">=13.0.0",
+    "rxjs": ">=6.6.3"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.3.1"
   }
 }
