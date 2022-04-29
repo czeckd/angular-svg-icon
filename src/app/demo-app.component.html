@@ -54,7 +54,7 @@
 	<div class="explain">
 		<p [hidden]="!display">Unloading the SVG will remove it from the registry. The next time the &lt;svg&#8209;icon&gt; is
 		used with the SVG's URL, the SVG will be loaded again.  Unloading will not remove a SVG already displayed in
-		the document as can be seen by the persistence of the three <svg-icon src="assets/images/eye.svg" [svgStyle]="{'width.px':14}">
+		the document as can be seen by the persistence of the three <svg-icon src="assets/images/eye.svg" [svgStyle]="{ 'width.px': '14'}">
 		</svg-icon> SVG at the top of the page.</p>
 
 		<p *ngIf="!display">Reloading the SVG will cause an http fetch to occur to load the SVG into the registry
