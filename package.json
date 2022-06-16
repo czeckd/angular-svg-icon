@@ -1,7 +1,7 @@
 {
   "name": "svg-icon",
-  "description": "Angular 13 component for inlining SVGs allowing them to be easily styled with CSS.",
-  "version": "13.0.0",
+  "description": "Angular 14 component and service for inlining SVGs allowing them to be easily styled with CSS.",
+  "version": "14.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/czeckd/angular-svg-icon.git"
@@ -25,31 +25,31 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~13.3.5",
-    "@angular/common": "~13.3.5",
-    "@angular/compiler": "~13.3.5",
-    "@angular/core": "~13.3.5",
-    "@angular/forms": "~13.3.5",
-    "@angular/platform-browser": "~13.3.5",
-    "@angular/platform-browser-dynamic": "~13.3.5",
-    "@angular/router": "~13.3.5",
+    "@angular/animations": "^14.0.1",
+    "@angular/common": "^14.0.1",
+    "@angular/compiler": "^14.0.1",
+    "@angular/core": "^14.0.1",
+    "@angular/forms": "^14.0.1",
+    "@angular/platform-browser": "^14.0.1",
+    "@angular/platform-browser-dynamic": "^14.0.1",
+    "@angular/router": "^14.0.1",
     "rxjs": "~6.6.3",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.3.4",
-    "@angular/cli": "~13.3.4",
-    "@angular/compiler-cli": "~13.3.5",
-    "@types/jasmine": "~3.6.0",
+    "@angular-devkit/build-angular": "^14.0.1",
+    "@angular/cli": "^14.0.1",
+    "@angular/compiler-cli": "^14.0.1",
+    "@types/jasmine": "~4.0.0",
     "@types/node": "^12.11.1",
-    "jasmine-core": "~3.7.0",
+    "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.0.3",
-    "karma-jasmine": "~4.0.0",
-    "karma-jasmine-html-reporter": "^1.5.0",
-    "ng-packagr": "^13.0.2",
-    "typescript": "~4.4.4"
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.0.0",
+    "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^14.0.2",
+    "typescript": "~4.7.3"
   }
 }

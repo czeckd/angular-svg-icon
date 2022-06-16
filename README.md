@@ -3,7 +3,7 @@
 Angular SVG Icon
 =========
 
-The **angular-svg-icon** is an Angular 13 service and component that provides a
+The **angular-svg-icon** is an Angular 14 service and component that provides a
 means to inline SVG files to allow for them to be easily styled by CSS and code.
 
 The service provides an icon registery that loads and caches a SVG indexed by
@@ -19,6 +19,7 @@ This [demo](https://czeckd.github.io/angular-svg-icon/) shows this module in act
 $ npm i angular-svg-icon --save
 ```
 **Note on earlier versions of Angular:** 
+- For Angular 13, use angular-svg-icon@13.0.0
 - For Angular 12, use angular-svg-icon@12.0.0
 - For Angular 11, use angular-svg-icon@11.2.0
 - For Angular 10, use angular-svg-icon@10.0.0
