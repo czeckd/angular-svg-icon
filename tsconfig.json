@@ -15,7 +15,7 @@
     "removeComments": false,
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "target": "es2020",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -24,13 +24,14 @@
       "dom"
     ],
     "paths": {
-       "angular-svg-icon": [
+      "angular-svg-icon": [
         "dist/angular-svg-icon"
       ],
       "angular-svg-icon/*": [
         "dist/angular-svg-icon/*"
       ]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
