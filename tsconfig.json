@@ -14,7 +14,6 @@
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
     "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
