@@ -48,6 +48,18 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
   ...
 })
 export class AppModule {}
+
+// Standalone Example
+
+import { HttpClientModule } from '@angular/common/http';
+import { SvgIconComponent, provideAngularSvgIcon } from 'angular-svg-icon';
+
+@NgModule({
+  imports: [ HttpClientModule, SvgIconComponent ],
+  providers: [ provideAngularSvgIcon() ],
+  ...
+})
+export class AppModule {}
 ```
 
 **BREAKING CHANGE**: as of angular-svg-icon@9.0.0, an explicit call to `forRoot()`
@@ -165,6 +177,26 @@ export function svgLoaderFactory(http: HttpClient, transferState: TransferState)
     ServerTransferStateModule,
     ModuleMapLoaderModule,
   ],
+  bootstrap: [ AppComponent ],
+})
+export class AppServerModule {
+}
+
+// Standalone Example
+@NgModule({
+  imports: [
+    AppModule,
+    ServerModule,
+    ServerTransferStateModule,
+    ModuleMapLoaderModule,
+  ],
+  providers: [ provideAngularSvgIcon({
+      loader: {
+        provide: SvgLoader,
+        useFactory: svgLoaderFactory,
+        deps: [ HttpClient, TransferState ],
+      }
+    }) ],
   bootstrap: [ AppComponent ],
 })
 export class AppServerModule {
