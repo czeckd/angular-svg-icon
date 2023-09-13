@@ -39,6 +39,8 @@ See the module's accompanying README.md for instructions.
 The **angular-svg-icon** should work as-is with webpack/angular-cli. Just import the
 ``AngularSvgIconModule`` and the ```HttpClientModule```.
 
+### Module Example
+
 ```typescript
 import { HttpClientModule } from '@angular/common/http';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -48,9 +50,11 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
   ...
 })
 export class AppModule {}
+```
 
-// Standalone Example
+### Standalone Example
 
+```typescript
 import { HttpClientModule } from '@angular/common/http';
 import { SvgIconComponent, provideAngularSvgIcon } from 'angular-svg-icon';
 
@@ -65,7 +69,7 @@ export class AppModule {}
 **BREAKING CHANGE**: as of angular-svg-icon@9.0.0, an explicit call to `forRoot()`
 must be made on the module's import.
 
-### Child modules
+### Child Modules
 
 Recommened usage pattern is to import `AngularSvgIconModule.forRoot()` in only the root AppModule of your application.
 In child modules, import only `AngularSvgIconModule`.
