@@ -3,6 +3,7 @@ import { ChangeDetectorRef, Component, DoCheck, ElementRef, Input,
 	KeyValueChangeRecord, KeyValueChanges, KeyValueDiffer, KeyValueDiffers,
 	OnChanges, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 
+import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { SvgIconRegistryService } from './svg-icon-registry.service';
@@ -16,6 +17,8 @@ class SvgIconHelper {
 }
 
 @Component({
+	standalone: true,
+	imports: [CommonModule],
 	selector: 'svg-icon',
 	template: '<ng-content></ng-content>'
 })

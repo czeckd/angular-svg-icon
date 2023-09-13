@@ -1,5 +1,4 @@
-import { ModuleWithProviders, NgModule, Provider } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule, Provider, makeEnvironmentProviders } from '@angular/core';
 
 import { SVG_ICON_REGISTRY_PROVIDER } from './svg-icon-registry.service';
 import { SvgIconComponent } from './svg-icon.component';
@@ -9,11 +8,15 @@ export interface AngularSvgIconConfig {
 	loader?: Provider;
 }
 
+export function provideAngularSvgIcon(config: AngularSvgIconConfig = {}) {
+	return makeEnvironmentProviders([
+	  SVG_ICON_REGISTRY_PROVIDER,
+	  config.loader || { provide: SvgLoader, useClass: SvgHttpLoader },
+	]);
+}
+
 @NgModule({
 	imports: [
-		CommonModule,
-	],
-	declarations: [
 		SvgIconComponent
 	],
 	exports: [ SvgIconComponent ]
