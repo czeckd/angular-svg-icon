@@ -1,6 +1,6 @@
 {
   "name": "angular-svg-icon",
-  "description": "Angular 16 component and service for inlining SVGs allowing them to be easily styled with CSS.",
+  "description": "Angular 17 component and service for inlining SVGs allowing them to be easily styled with CSS.",
   "version": "17.0.0",
   "repository": {
     "type": "git",
