@@ -19,7 +19,7 @@ This [demo](https://czeckd.github.io/angular-svg-icon/) shows this module in act
 $ npm i angular-svg-icon --save
 ```
 **Note on earlier versions of Angular:** 
-- For Angular 16, use angular-svg-icon@16.0.0
+- For Angular 16, use angular-svg-icon@16.1.0
 - For Angular 15, use angular-svg-icon@15.0.0
 - For Angular 14, use angular-svg-icon@14.0.0
 - For Angular 13, use angular-svg-icon@13.0.0
