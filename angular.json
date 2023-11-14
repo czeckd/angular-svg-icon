@@ -81,18 +81,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-			"browserTarget": "svg-icon:build"
+			"buildTarget": "svg-icon:build"
           },
           "configurations": {
             "production": {
-			  "browserTarget": "svg-icon:build:production"
+			  "buildTarget": "svg-icon:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-			"browserTarget": "svg-icon:build"
+			"buildTarget": "svg-icon:build"
           }
         },
         "test": {
