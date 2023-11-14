@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 
-import { SvgIconRegistryService } from 'angular-svg-icon';
+import { SvgIconRegistryService, SvgIconComponent } from 'angular-svg-icon';
+import { NgClass, JsonPipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
-	selector: 'app-demo',
-	styleUrls: [ './demo-app.component.scss' ],
-	templateUrl: './demo-app.component.html'
+    standalone: true,
+    imports: [SvgIconComponent, FormsModule, NgClass, JsonPipe],
+    selector: 'app-demo',
+    styleUrls: ['./demo-app.component.scss'],
+    templateUrl: './demo-app.component.html'
 })
 
 export class DemoAppComponent {
