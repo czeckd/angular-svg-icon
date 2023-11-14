@@ -38,7 +38,7 @@
             "outputPath": "dist/svg-icon",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
