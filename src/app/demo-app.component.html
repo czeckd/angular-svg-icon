@@ -22,25 +22,31 @@
 		<fieldset>
 			<label>height:</label>
 			<label>auto <input type="checkbox" [(ngModel)]="autoheight" name="autoheight"></label>
-			<span class="px" *ngIf="!autoheight"><input type="number" min="0" max="1000" [(ngModel)]="h" name="height"></span>
+			@if (!autoheight) {
+				<span class="px"><input type="number" min="0" max="1000" [(ngModel)]="h" name="height"></span>
+			}
 			<span style="margin-left:10px;">&nbsp;</span>
 
 			<label>width:</label>
 			<label>auto <input type="checkbox" [(ngModel)]="autowidth" name="autowidth"></label>
-			<span class="px" *ngIf="!autowidth"><input type="number" min="0" max="1000" [(ngModel)]="w" name="width"></span>
+			@if (!autowidth) {
+				<span class="px"><input type="number" min="0" max="1000" [(ngModel)]="w" name="width"></span>
+			}
 		</fieldset>
 		<fieldset>
 			<label>stretch: <input type="checkbox" [(ngModel)]="stretch" name="stretch"></label>
 		</fieldset>
 	</form>
 
-	<div *ngIf="display">
-		<svg-icon [src]="img[onImg]" [stretch]="stretch" [svgStyle]="getNgStyle()"></svg-icon>
+	@if (display){
+		<div>
+			<svg-icon [src]="img[onImg]" [stretch]="stretch" [svgStyle]="getNgStyle()"></svg-icon>
 
-		<pre>&lt;svg-icon src="{{img[onImg]}}" [stretch]="{{stretch|json}}"
-  [svgStyle]="{{getStyle()}}"&gt;
-&lt;/svg-icon&gt;</pre>
-	</div>
+			<pre>&lt;svg-icon src="{{img[onImg]}}" [stretch]="{{stretch|json}}"
+	[svgStyle]="{{getStyle()}}"&gt;
+	&lt;/svg-icon&gt;</pre>
+		</div>
+	}
 
 	<div>
 		<button (click)="swapImg()">Swap SVG</button>
@@ -57,8 +63,10 @@
 		the document as can be seen by the persistence of the three <svg-icon src="assets/images/eye.svg" [svgStyle]="{ 'width.px': '14'}">
 		</svg-icon> SVG at the top of the page.</p>
 
-		<p *ngIf="!display">Reloading the SVG will cause an http fetch to occur to load the SVG into the registry
-		where it will persist until programatically unloaded.</p>
+		@if (!display) {
+			<p>Reloading the SVG will cause an http fetch to occur to load the SVG into the registry
+			where it will persist until programmatically unloaded.</p>
+		}
 	</div>
 
 	<div class="explain">
@@ -80,11 +88,15 @@
 &lt;/svg-icon&gt;</pre>
 
 		<select [(ngModel)]="svgKlass">
-			<option *ngFor="let c of svgKlasses" [value]="c">{{c}}</option>
+			@for (c of svgKlasses; track c) {
+				<option [value]="c">{{c}}</option>
+			}
 		</select>
 
 		<select [(ngModel)]="klass">
-			<option *ngFor="let c of klasses" [value]="c">{{c}}</option>
+			@for (c of klasses; track c) {
+				<option [value]="c">{{c}}</option>
+			}
 		</select>
 
 		<button (click)="applied = !applied">{{applied ? 'ignore class' : 'apply class'}}</button>

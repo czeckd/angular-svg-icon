@@ -1,8 +1,15 @@
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { enableProdMode } from '@angular/core';
-
-import { AppModule } from './app/app.module';
+import { provideHttpClient } from '@angular/common/http';
+import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { SvgIconComponent, provideAngularSvgIcon } from 'angular-svg-icon';
+import { DemoAppComponent } from './app/demo-app.component';
 
 enableProdMode();
 
-platformBrowserDynamic().bootstrapModule( AppModule );
+bootstrapApplication(DemoAppComponent, {
+    providers: [
+        importProvidersFrom(SvgIconComponent),
+        provideAngularSvgIcon(),
+        provideHttpClient()
+    ]
+});
