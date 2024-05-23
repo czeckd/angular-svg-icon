@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 
 import { SvgIconRegistryService, SvgIconComponent } from 'angular-svg-icon';
 import { NgClass, JsonPipe } from '@angular/common';
@@ -14,19 +14,19 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class DemoAppComponent {
-	r = 120;
-	g = 120;
-	b = 120;
-	w = 175;
-	h = 175;
-	p = 0;
-	m = 0;
-	o = 1.0;
+	r = signal(120);
+	g = signal(120);
+	b = signal(120);
+	w = signal(175);
+	h = signal(175);
+	p = signal(0);
+	m = signal(0);
+	o = signal(1.0);
 
-	autoheight = true;
-	autowidth = false;
+	autoheight = signal(true);
+	autowidth = signal(false);
 	stretch = false;
-	border = false;
+	border = signal(false);
 	display = true;
 	klasses = [ '', 'red', 'green', 'blue' ];
 	klass = this.klasses[0];
@@ -39,43 +39,43 @@ export class DemoAppComponent {
 	onImg = 0;
 	message = '';
 
+	getNgStyle = computed(() => {
+		const style: any = {};
+
+		if (!this.autoheight()) {
+			style['height.px'] = this.h();
+		}
+
+		if (!this.autowidth()) {
+			style['width.px'] = this.w();
+		}
+
+		style.fill = 'rgb(' + this.r() + ',' + this.g() + ',' + this.b() + ')';
+
+		if (this.border()) {
+			style.border = '1px solid black';
+		}
+
+		if (this.p() > 0) {
+			style['padding.px'] = this.p();
+		}
+
+		if (this.m() > 0) {
+			style['margin.px'] = this.m();
+		}
+
+		if (this.o() < 1.0) {
+			style.opacity = this.o();
+		}
+
+		return style;
+	});
+
 	constructor(private registry: SvgIconRegistryService) {
 	}
 
 	getStyle(): string {
 		return JSON.stringify(this.getNgStyle()).replace(/\"/g, '\'');
-	}
-
-	getNgStyle() {
-		const style: any = {};
-
-		if (!this.autoheight) {
-			style['height.px'] = this.h;
-		}
-
-		if (!this.autowidth) {
-			style['width.px'] = this.w;
-		}
-
-		style.fill = 'rgb(' + this.r + ',' + this.g + ',' + this.b + ')';
-
-		if (this.border) {
-			style.border = '1px solid black';
-		}
-
-		if (this.p > 0) {
-			style['padding.px'] = this.p;
-		}
-
-		if (this.m > 0) {
-			style['margin.px'] = this.m;
-		}
-
-		if (this.o < 1.0) {
-			style.opacity = this.o;
-		}
-
-		return style;
 	}
 
 	unload(url: string) {
