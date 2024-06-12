@@ -3,7 +3,7 @@
 Angular SVG Icon
 =========
 
-The **angular-svg-icon** is an Angular 17 service and component that provides a
+The **angular-svg-icon** is an Angular 18 service and component that provides a
 means to inline SVG files to allow for them to be easily styled by CSS and code.
 
 The service provides an icon registery that loads and caches a SVG indexed by
@@ -18,7 +18,30 @@ This [demo](https://czeckd.github.io/angular-svg-icon/) shows this module in act
 ```
 $ npm i angular-svg-icon --save
 ```
+
+## Versions
+
+The latest version of the package is for Angular 18.
+
+
+:grey_exclamation: **BREAKING CHANGE**: as of angular-svg-icon@18.0.0, the package was converted to use 
+`inject` and `signal` from `@common/core` for improved performance. 
+
+This may potentially break usage of two-way binded variables. In brief, an application using this 
+library may need to be changed to use signals in order to use version 18 and beyond. This should 
+be a simple matter of converting plain old variables that are 2-way binded into signals. For example:
+
+```typescript
+  a = 120;
+```
+should be modified to become:
+```typescript
+  a = signal(120);
+```
+The demo has been updated if you need futher examples how to make the changes. 
+
 **Note on earlier versions of Angular:** 
+- For Angular 17, use angular-svg-icon@17.0.0
 - For Angular 16, use angular-svg-icon@16.1.0
 - For Angular 15, use angular-svg-icon@15.0.0
 - For Angular 14, use angular-svg-icon@14.0.0
@@ -67,7 +90,7 @@ import { SvgIconComponent, provideAngularSvgIcon } from 'angular-svg-icon';
 export class AppModule {}
 ```
 
-**BREAKING CHANGE**: as of angular-svg-icon@9.0.0, an explicit call to `forRoot()`
+:grey_exclamation: **BREAKING CHANGE**: as of angular-svg-icon@9.0.0, an explicit call to `forRoot()`
 must be made on the module's import.
 
 ### Child Modules
@@ -323,5 +346,6 @@ MIT
 
 
 ## Author
-- David Czeck [@czeckd](https://github.com/czeckd)
+- David Czeck [@czeckd](https://github.com/czeckd) and 
+[community contributors](https://github.com/czeckd/angular-svg-icon/graphs/contributors). Thank you!
 
