@@ -23,22 +23,9 @@ $ npm i angular-svg-icon --save
 
 The latest version of the package is for Angular 18.
 
-
 :grey_exclamation: **BREAKING CHANGE**: as of angular-svg-icon@18.0.0, the package was converted to use 
-`inject` and `signal` from `@common/core` for improved performance. 
-
-This may potentially break usage of two-way binded variables. In brief, an application using this 
-library may need to be changed to use signals in order to use version 18 and beyond. This should 
-be a simple matter of converting plain old variables that are 2-way binded into signals. For example:
-
-```typescript
-  a = 120;
-```
-should be modified to become:
-```typescript
-  a = signal(120);
-```
-The demo has been updated if you need futher examples how to make the changes. 
+`inject` and `signal` from `@common/core` for improved performance. Thus method calls that are inputs
+should be avoided. Inputs are now signal inputs.
 
 **Note on earlier versions of Angular:** 
 - For Angular 17, use angular-svg-icon@17.0.0
