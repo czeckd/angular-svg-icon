@@ -22,14 +22,14 @@
 		<fieldset>
 			<label>height:</label>
 			<label>auto <input type="checkbox" [(ngModel)]="autoheight" name="autoheight"></label>
-			@if (!autoheight) {
+			@if (!autoheight()) {
 				<span class="px"><input type="number" min="0" max="1000" [(ngModel)]="h" name="height"></span>
 			}
 			<span style="margin-left:10px;">&nbsp;</span>
 
 			<label>width:</label>
 			<label>auto <input type="checkbox" [(ngModel)]="autowidth" name="autowidth"></label>
-			@if (!autowidth) {
+			@if (!autowidth()) {
 				<span class="px"><input type="number" min="0" max="1000" [(ngModel)]="w" name="width"></span>
 			}
 		</fieldset>
