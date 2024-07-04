@@ -101,7 +101,12 @@ Basic usage is:
 ```
 *Note that without a height or width set, the SVG may not display!*
 
-If svg was previously loaded via registry with name it can be used like this:
+Loading with a name:
+```html
+<svg-icon src="images/eye.svg" name="eye" [svgStyle]="{ 'width.px':90 }"></svg-icon>
+```
+
+If the SVG was previously loaded with a name either via the component or registry, then it can be used like this:
 ```html
 <svg-icon name="eye" [svgStyle]="{ 'width.px':90 }"></svg-icon>
 ```

@@ -26,7 +26,7 @@ export class SvgIconComponent implements OnDestroy {
 	private renderer = inject(Renderer2);
 	private iconReg = inject(SvgIconRegistryService);
 
-	src = input.required<string>();
+	src = input<string>();
 	name = input<string>();
 	stretch = input(false);
 	applyClass = input(false);
@@ -115,8 +115,13 @@ export class SvgIconComponent implements OnDestroy {
 		return this.element.nativeElement.firstChild;
 	}
 
-	private init(src: string, name?: string) {
-		if (name) {
+	private init(src?: string, name?: string) {
+		if (src && name) {
+			const svgObs = this.iconReg.loadSvg(src, name);
+			if (svgObs) {
+				this.helper.icnSub = svgObs.subscribe(svg => this.initSvg(svg));
+			}
+		} else if (name) {
 			const svgObs = this.iconReg.getSvgByName(name);
 			if (svgObs) {
 				this.helper.icnSub = svgObs.subscribe(svg => this.initSvg(svg));
