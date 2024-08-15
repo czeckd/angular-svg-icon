@@ -66,15 +66,17 @@ export class AppModule {}
 ### Standalone Example
 
 ```typescript
-import { HttpClientModule } from '@angular/common/http';
-import { SvgIconComponent, provideAngularSvgIcon } from 'angular-svg-icon';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideAngularSvgIcon } from 'angular-svg-icon';
 
-@NgModule({
-  imports: [ HttpClientModule, SvgIconComponent ],
-  providers: [ provideAngularSvgIcon() ],
-  ...
-})
-export class AppModule {}
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideHttpClient(),
+    provideAngularSvgIcon()
+  ]
+};
 ```
 
 :grey_exclamation: **BREAKING CHANGE**: as of angular-svg-icon@9.0.0, an explicit call to `forRoot()`
