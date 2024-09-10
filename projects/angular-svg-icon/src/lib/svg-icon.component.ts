@@ -260,18 +260,19 @@ export class SvgIconComponent implements OnDestroy {
 	}
 
 	private doAria(label: string) {
-		const svg = this.element.nativeElement.firstChild;
-		// If there is not a svgAriaLabel and the SVG has an arial-label, then do not override
-		// the SVG's aria-label.
-		if (svg && !(label === undefined && svg.hasAttribute('aria-label'))) {
-			if (label === '') {
-				this.renderer.setAttribute(svg, 'aria-hidden', 'true');
-				this.renderer.removeAttribute(svg, 'aria-label');
-			} else {
-				this.renderer.removeAttribute(svg, 'aria-hidden');
-				this.renderer.setAttribute(svg, 'aria-label', label);
-			}
-		}
-	}
-
+    if (label !== undefined) {
+  		const svg = this.element.nativeElement.firstChild;
+	  	// If there is not a svgAriaLabel and the SVG has an arial-label, then do not override
+		  // the SVG's aria-label.
+		  if (svg && !svg.hasAttribute('aria-label')) {
+			  if (label === '') {
+				  this.renderer.setAttribute(svg, 'aria-hidden', 'true');
+				  this.renderer.removeAttribute(svg, 'aria-label');
+			  } else {
+			  	this.renderer.removeAttribute(svg, 'aria-hidden');
+			  	this.renderer.setAttribute(svg, 'aria-label', label);
+			  }
+		  }
+	  }
+  }
 }
