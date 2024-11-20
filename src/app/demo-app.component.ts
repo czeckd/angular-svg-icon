@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 
 
 @Component({
-    standalone: true,
     imports: [SvgIconComponent, FormsModule, NgClass, JsonPipe],
     selector: 'app-demo',
     styleUrls: ['./demo-app.component.scss'],
