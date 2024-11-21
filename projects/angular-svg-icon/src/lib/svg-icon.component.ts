@@ -48,13 +48,12 @@ export class SvgIconComponent implements OnDestroy {
 				this.destroy();
 				this.init(this.src(), this.name());
 			}
-		}, {allowSignalWrites: true});
+		});
 
 		// Watch for viewBox changes
 		effect(() => {
 			const viewBox = this.viewBox();
 			if (!this.svg()) return;
-
 			this.updateViewBox(viewBox);
 		});
 
@@ -159,9 +158,7 @@ export class SvgIconComponent implements OnDestroy {
 			elem.innerHTML = '';
 			this.renderer.appendChild(elem, icon);
 			this.helper.loaded = true;
-
 			this.copyNgContentAttribute(elem, icon);
-
 			this.svg.update(x => x + 1);
 		}
 	}
