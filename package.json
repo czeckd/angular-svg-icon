@@ -1,7 +1,7 @@
 {
   "name": "svg-icon",
   "description": "Angular 19 component and service for inlining SVGs allowing them to be easily styled with CSS.",
-  "version": "19.0.0",
+  "version": "19.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/czeckd/angular-svg-icon.git"
