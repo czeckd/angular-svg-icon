@@ -34,6 +34,7 @@ export class SvgIconComponent implements OnDestroy {
 	klass = input<any>(undefined, {alias: 'class'});
 	viewBox = input<string>();
 	svgAriaLabel = input<string>();
+	onSVGLoaded = input<(svg: SVGElement, parent: HTMLElement) => SVGElement>();
 	svg = signal(0);
 
 	// Adapted from ngStyle (see:  angular/packages/common/src/directives/ng_style.ts)
@@ -152,8 +153,12 @@ export class SvgIconComponent implements OnDestroy {
 	private setSvg(svg: SVGElement) {
 		if (!this.helper.loaded && svg) {
 			this.helper.svg = svg;
-			const icon = svg.cloneNode(true) as SVGElement;
+			let icon = svg.cloneNode(true) as SVGElement;
 			const elem = this.element.nativeElement;
+			const onLoadCallback = this?.onSVGLoaded();
+			if (onLoadCallback) {
+				icon = onLoadCallback(icon, elem);
+			}
 
 			elem.innerHTML = '';
 			this.renderer.appendChild(elem, icon);
