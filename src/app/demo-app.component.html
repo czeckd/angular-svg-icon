@@ -111,4 +111,11 @@
 		<svg-icon src="assets/images/multi_path.svg" class="multi-path-svg animated"></svg-icon>
 	</div>
 
+	<div class="explain">
+		<h2>Insert Text into SVG Example</h2>
+		<p>After the SVG is loaded, this example will insert text inside the SVG itself. The text will be placed at specific coordinates inside the SVG.</p>
+		<svg-icon src="assets/images/circle.svg"  [onSVGLoaded]="handleSvgLoaded.bind(this)">
+		</svg-icon>
+	  </div>
+
 </div>
