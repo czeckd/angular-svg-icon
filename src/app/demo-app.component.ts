@@ -98,4 +98,12 @@ export class DemoAppComponent {
 		this.onImg = (this.onImg === 1 ? 0 : 1);
 		this.display = true;
 	}
+
+	handleSvgLoaded = (svg: SVGElement, parent: HTMLElement): SVGElement => {
+		const textElement = svg?.querySelector('.text');
+		if (textElement) {
+			textElement.textContent = 'Hello';
+		}
+        return svg;
+    }
 }

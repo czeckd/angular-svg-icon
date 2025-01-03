@@ -130,7 +130,9 @@ The following attributes can be set on svg-icon:
 - **[svgClass]** - An optional string of the class or classes to apply to the SVG (independent of what is set for the class on the `svg-icon`).
 - **[viewBox]** - An optional string to set the viewBox on the SVG. If the `viewBox="auto"`, then `svg-icon` will attempt to convert the SVG's width and height attributes to a `viewBox="0 0 w h"`. Both explicitly setting the viewBox or `auto` setting the viewBox will remove the SVG's width and height attributes.
 - **[svgAriaLabel]** - An optional string to set the SVG's `aria-label`. If the SVG does not have a pre-existing `aria-label` and the `svgAriaLabel` is not set, then the SVG will be loaded with `aria-hidden=true`. If the SVG has an `aria-label`, then the SVG's default will be used. To remove the SVG's `aria-label`, assign an empty string `''` to `svgAriaLabel`. Doing so will remove any existing `aria-label` and set `aria-hidden=true` on the SVG.
-
+-**onSVGLoaded** -Callback function that is triggered when an SVG is successfully loaded into the DOM. This function allows you to perform custom actions or manipulations on the loaded SVG element after it has been fully loaded. It provides a convenient way to hook into the SVG loading process and execute additional logic or modifications.
+Parameters:
+svgElement (SVGElement): The loaded SVG element that you can manipulate or use in your custom logic.
 Deprecated attribute:
 - **[applyCss]** - Renamed as **[applyClass]** (as of v9.2.0).
 
