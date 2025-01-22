@@ -150,14 +150,14 @@ To preload a SVG file from a URL into the registry:
 ```typescript
 {
   ...
-  this.iconReg.loadSvg('foo.svg').subscribe();
+  this.iconReg.loadSvg('foo.svg')?.subscribe();
 }
 ```
 To preload a SVG file from a URL into the registry with predefined name:
 ```typescript
 {
   ...
-  this.iconReg.loadSvg('foo.svg', 'foo').subscribe();
+  this.iconReg.loadSvg('foo.svg', 'foo')?.subscribe();
 }
 ```
 To add a SVG from a string:
