@@ -1,11 +1,8 @@
 import { Component, inject, ElementRef, KeyValueChanges, KeyValueDiffer, KeyValueDiffers,
 	OnDestroy, Renderer2, ChangeDetectionStrategy,
 	input, effect, signal} from '@angular/core';
-
 import { Subscription } from 'rxjs';
-
 import { SvgIconRegistryService } from './svg-icon-registry.service';
-
 
 class SvgIconHelper {
 	svg!: SVGElement;
@@ -25,6 +22,8 @@ export class SvgIconComponent implements OnDestroy {
 	private differs = inject(KeyValueDiffers);
 	private renderer = inject(Renderer2);
 	private iconReg = inject(SvgIconRegistryService);
+	private hostClassObserver?: MutationObserver;
+	private previousHostClasses: string[] = [];
 
 	src = input<string>();
 	name = input<string>();
@@ -37,7 +36,7 @@ export class SvgIconComponent implements OnDestroy {
 	onSVGLoaded = input<(svg: SVGElement, parent: HTMLElement) => SVGElement>();
 	svg = signal(0);
 
-	// Adapted from ngStyle (see:  angular/packages/common/src/directives/ng_style.ts)
+	// Adapted from ngStyle (see:	angular/packages/common/src/directives/ng_style.ts)
 	svgStyle = input<{[klass: string]: any }|null>();
 
 	private helper = new SvgIconHelper();
@@ -94,6 +93,14 @@ export class SvgIconComponent implements OnDestroy {
 			previousKlass = this.klass();
 		});
 
+		// Reactively sync host classes to the SVG when applyClass or the SVG changes
+		effect(() => {
+			const _ = this.svg();
+			if (this.applyClass()) {
+				this.syncHostClassesToSvg();
+			}
+		});
+
 		// Watch for svgAriaLabel changes
 		effect(() => {
 			const _ = this.svg();
@@ -108,6 +115,7 @@ export class SvgIconComponent implements OnDestroy {
 	}
 
 	ngOnDestroy() {
+		this.stopHostClassObserver();
 		this.destroy();
 	}
 
@@ -164,6 +172,12 @@ export class SvgIconComponent implements OnDestroy {
 			this.renderer.appendChild(elem, icon);
 			this.helper.loaded = true;
 			this.copyNgContentAttribute(elem, icon);
+
+			// Start observing host class changes and sync them to the SVG
+			this.startHostClassObserver();
+//			this.syncHostClassesToSvg();
+			queueMicrotask(() => this.syncHostClassesToSvg());
+
 			this.svg.update(x => x + 1);
 		}
 	}
@@ -262,19 +276,77 @@ export class SvgIconComponent implements OnDestroy {
 	}
 
 	private doAria(label: string) {
-    if (label !== undefined) {
-  		const svg = this.element.nativeElement.firstChild;
-	  	// If there is not a svgAriaLabel and the SVG has an arial-label, then do not override
-		  // the SVG's aria-label.
-		  if (svg && !svg.hasAttribute('aria-label')) {
-			  if (label === '') {
-				  this.renderer.setAttribute(svg, 'aria-hidden', 'true');
-				  this.renderer.removeAttribute(svg, 'aria-label');
-			  } else {
-			  	this.renderer.removeAttribute(svg, 'aria-hidden');
-			  	this.renderer.setAttribute(svg, 'aria-label', label);
-			  }
+		if (label !== undefined) {
+			const svg = this.element.nativeElement.firstChild;
+			// If there is not a svgAriaLabel and the SVG has an arial-label, then do not override
+			// the SVG's aria-label.
+			if (svg && !svg.hasAttribute('aria-label')) {
+				if (label === '') {
+					this.renderer.setAttribute(svg, 'aria-hidden', 'true');
+					this.renderer.removeAttribute(svg, 'aria-label');
+				} else {
+					this.renderer.removeAttribute(svg, 'aria-hidden');
+					this.renderer.setAttribute(svg, 'aria-label', label);
+				}
+			}
+		}
+	}
+
+	private startHostClassObserver() {
+		const host = this.element.nativeElement as HTMLElement;
+		if (!host) return;
+
+		if (this.hostClassObserver) {
+		  this.hostClassObserver.disconnect();
+		}
+
+		this.hostClassObserver = new MutationObserver((mutations) => {
+		  for (const m of mutations) {
+		    if (m.type === 'attributes' && m.attributeName === 'class') {
+		      this.syncHostClassesToSvg();
+		      break;
+		    }
 		  }
-	  }
-  }
+		});
+
+		this.hostClassObserver.observe(host, {
+		  attributes: true,
+		  attributeFilter: ['class'],
+		});
+	}
+
+	private stopHostClassObserver() {
+		if (this.hostClassObserver) {
+		  this.hostClassObserver.disconnect();
+		  this.hostClassObserver = undefined;
+		}
+		this.previousHostClasses = [];
+	}
+
+	private syncHostClassesToSvg() {
+		const host = this.element.nativeElement as HTMLElement;
+		const svg = this.elemSvg as SVGSVGElement | null;
+		if (!host || !svg) return;
+
+		// Remove previously mirrored host classes
+		if (this.previousHostClasses.length) {
+		  this.setClass(svg, this.previousHostClasses, null);
+		}
+
+		if (!this.applyClass()) {
+		  this.previousHostClasses = [];
+		  return;
+		}
+
+		const hostClasses = Array.from(host.classList);
+		this.setClass(svg, null, hostClasses);
+		this.previousHostClasses = hostClasses;
+
+console.log('SYNC RUN', {
+  host: this.element.nativeElement.className,
+  svg: this.elemSvg?.className
+});
+
+	}
+
 }

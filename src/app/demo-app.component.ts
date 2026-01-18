@@ -33,10 +33,13 @@ export class DemoAppComponent {
 	svgKlass = this.svgKlasses[0];;
 	applied = false;
 
-
 	img = [ 'assets/images/eye.svg', 'assets/images/moon-o.svg' ];
 	onImg = 0;
 	message = '';
+
+	apply = true;
+	dynamic = { dynA: true, dynB: false };
+	cond = false;
 
 	getNgStyle = computed(() => {
 		const style: any = {};
@@ -105,4 +108,9 @@ export class DemoAppComponent {
 		}
         return svg;
     }
+
+	toggleClasses() {
+		this.dynamic = { dynA: !this.dynamic.dynA, dynB: !this.dynamic.dynB };
+		this.cond = !this.cond;
+	}
 }

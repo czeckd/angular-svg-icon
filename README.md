@@ -136,6 +136,19 @@ The following attributes can be set on svg-icon:
 Deprecated attribute:
 - **[applyCss]** - Renamed as **[applyClass]** (as of v9.2.0).
 
+### applyClass
+
+When `applyClass="true"`, all classes applied to the `<svg-icon>` host element are also applied to the generated `<svg>` element.
+
+This includes:
+
+- static `class="..."` attributes
+- Angular class bindings such as `[ngClass]`
+- individual class bindings such as `[class.foo]`
+
+These classes are kept in sync reactively whenever the host element’s class list changes.
+
+Classes already present on the SVG (from the file itself or via `svgClass`) are preserved.
 
 ### Using the Svg-Icon Registry
 Programatic interaction with the registry is also possible.

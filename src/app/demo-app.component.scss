@@ -191,3 +191,27 @@ select {
 .large {
 	width: 80px;
 }
+
+
+/* Static classes → pure purple fill */
+svg-icon svg.static-a,
+svg-icon svg.static-b {
+  fill: purple !important;
+}
+
+/* dynA → green dotted outline */
+svg-icon svg.dynA {
+  outline: 6px dotted green !important;
+  outline-offset: 6px !important;
+}
+
+/* dynB → orange dashed outline */
+svg-icon svg.dynB {
+  outline: 6px dashed orange !important;
+  outline-offset: 6px !important;
+}
+
+/* conditional → transparency */
+svg-icon svg.conditional {
+  fill-opacity: 0.3 !important;
+}

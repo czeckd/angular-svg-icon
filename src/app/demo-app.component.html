@@ -116,6 +116,24 @@
 		<p>After the SVG is loaded, this example will insert text inside the SVG itself. The text will be placed at specific coordinates inside the SVG.</p>
 		<svg-icon src="assets/images/circle.svg"  [onSVGLoaded]="handleSvgLoaded.bind(this)">
 		</svg-icon>
-	  </div>
+	</div>
 
+
+	<div class="explain">
+		<h2>Class Sync Example</h2>
+		<p>Using [ngClass] and class conditional.</p>
+		<div class="example" style="padding:20px;">
+			<svg-icon src="assets/images/bell.svg" [applyClass]="apply" [ngClass]="dynamic" class="static-a static-b" [class.conditional]="cond">
+			</svg-icon>
+		</div>
+	</div>
+	<div>
+		<pre>&lt;svg-icon name="bell" class="static-a static-b {{cond ? 'conditional ': ''}}{{dynamic.dynA ? 'dynA' : 'dynB'}}"
+[applyClass]="{{apply}}"
+[ngClass]="{{dynamic | json}}"
+[class.conditional]="{{cond}}"&gt; &lt;/svg-icon&gt;</pre>
+		<p>
+			<button (click)="toggleClasses()">Toggle Classes</button>
+		</p>
+	</div>
 </div>
