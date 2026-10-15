@@ -24,7 +24,7 @@ $ npm i angular-svg-icon --save
 The latest version of the package is for Angular 19.
 
 :grey_exclamation: **BREAKING CHANGE**: as of angular-svg-icon@18.0.0, the package was converted to use 
-`inject` and `signal` from `@common/core` for improved performance. Thus method calls that are inputs
+`inject` and `signal` from `@angular/core` for improved performance. Thus method calls that are inputs
 should be avoided. Inputs are now signal inputs.
 
 **Note on earlier versions of Angular:** 
@@ -131,7 +131,7 @@ The following attributes can be set on svg-icon:
 - **[svgClass]** - An optional string of the class or classes to apply to the SVG (independent of what is set for the class on the `svg-icon`).
 - **[viewBox]** - An optional string to set the viewBox on the SVG. If the `viewBox="auto"`, then `svg-icon` will attempt to convert the SVG's width and height attributes to a `viewBox="0 0 w h"`. Both explicitly setting the viewBox or `auto` setting the viewBox will remove the SVG's width and height attributes.
 - **[svgAriaLabel]** - An optional string to set the SVG's `aria-label`. If the SVG does not have a pre-existing `aria-label` and the `svgAriaLabel` is not set, then the SVG will be loaded with `aria-hidden=true`. If the SVG has an `aria-label`, then the SVG's default will be used. To remove the SVG's `aria-label`, assign an empty string `''` to `svgAriaLabel`. Doing so will remove any existing `aria-label` and set `aria-hidden=true` on the SVG.
-- **onSVGLoaded** - Callback function that is triggered when an SVG is successfully loaded into the DOM. This function allows you to perform custom actions or manipulations on the loaded SVG element after it has been fully loaded. It provides a convenient way to hook into the SVG loading process and execute additional logic or modifications. Parameters: svgElement (SVGElement): The loaded SVG element that you can manipulate or use in your custom logic.
+- **[onSVGLoaded]** - An optional callback `(svg: SVGElement, parent: HTMLElement) => SVGElement`, called with the cloned SVG and its host **before** the clone is appended to the DOM. Modify and return the SVG (or return a replacement SVG); the returned element is then inserted into the host.
 
 Deprecated attribute:
 - **[applyCss]** - Renamed as **[applyClass]** (as of v9.2.0).
@@ -183,48 +183,60 @@ When rendering on server-side, the SVGs must be loaded via the file system.
 This can be achieved by providing an `SvgLoader` to the server module:
 
 ```typescript
-export function svgLoaderFactory(http: HttpClient, transferState: TransferState) {
+import { NgModule, TransferState } from '@angular/core';
+import { ServerModule } from '@angular/platform-server';
+import { AngularSvgIconModule, SvgLoader } from 'angular-svg-icon';
+import { AppModule } from './app.module';
+import { AppComponent } from './app.component';
+import { SvgServerLoader } from './svg-server-loader';
+
+export function svgLoaderFactory(transferState: TransferState) {
+  // Adjust this path to the icons in your application's browser output.
   return new SvgServerLoader('browser/assets/icons', transferState);
 }
 
 @NgModule({
   imports: [
+    AppModule,
+    ServerModule,
     AngularSvgIconModule.forRoot({
       loader: {
         provide: SvgLoader,
         useFactory: svgLoaderFactory,
-        deps: [ HttpClient, TransferState ],
+        deps: [ TransferState ],
       }
     }),
-    AppModule,
-    ServerModule,
-    ServerTransferStateModule,
-    ModuleMapLoaderModule,
   ],
   bootstrap: [ AppComponent ],
 })
 export class AppServerModule {
 }
+```
 
-// Standalone Example
-@NgModule({
-  imports: [
-    AppModule,
-    ServerModule,
-    ServerTransferStateModule,
-    ModuleMapLoaderModule,
-  ],
-  providers: [ provideAngularSvgIcon({
+For a standalone application, merge the server-only configuration **after**
+your application's shared configuration:
+
+```typescript
+import { ApplicationConfig, mergeApplicationConfig, TransferState } from '@angular/core';
+import { provideServerRendering } from '@angular/platform-server';
+import { provideAngularSvgIcon, SvgLoader } from 'angular-svg-icon';
+import { appConfig } from './app.config';
+import { SvgServerLoader } from './svg-server-loader';
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering(),
+    provideAngularSvgIcon({
       loader: {
         provide: SvgLoader,
-        useFactory: svgLoaderFactory,
-        deps: [ HttpClient, TransferState ],
+        useFactory: (state: TransferState) => new SvgServerLoader('browser/assets/icons', state),
+        deps: [ TransferState ],
       }
-    }) ],
-  bootstrap: [ AppComponent ],
-})
-export class AppServerModule {
-}
+    })
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
 ```
 
 The loader itself is up to you to implement because it depends on where your
@@ -233,10 +245,12 @@ in the transfer state of your app in order to avoid double requests could look
 like that:
 
 ```typescript
-const fs = require('fs');
-const join = require('path').join;
-const parseUrl = require('url').parse;
-const baseName = require('path').basename;
+// svg-server-loader.ts (server-only; do not import into the browser bundle)
+import { readFileSync } from 'fs';
+import { basename, join } from 'path';
+import { TransferState, makeStateKey } from '@angular/core';
+import { Observable } from 'rxjs';
+import { SvgLoader } from 'angular-svg-icon';
 
 export class SvgServerLoader implements SvgLoader {
 
@@ -245,16 +259,16 @@ export class SvgServerLoader implements SvgLoader {
   }
 
   getSvg(url: string): Observable<string> {
-    const parsedUrl:URL = parseUrl(url);
-    const fileNameWithHash = baseName(parsedUrl.pathname);
+    const parsedUrl = new URL(url, 'http://localhost');
+    const fileNameWithHash = basename(parsedUrl.pathname);
     // Remove content hashing
     const fileName = fileNameWithHash.replace(/^(.*)(\.[0-9a-f]{16,})(\.svg)$/i, '$1$3');
     const filePath = join(this.iconPath, fileName);
-    return Observable.create(observer => {
-      const svgData = fs.readFileSync(filePath, 'utf8');
+    return new Observable<string>(observer => {
+      const svgData = readFileSync(filePath, 'utf8');
 
-      // Here we save the translations in the transfer-state
-      const key: StateKey<number> = makeStateKey<number>('transfer-svg:' + url);
+      // Save the SVG text in transfer state.
+      const key = makeStateKey<string>('transfer-svg:' + url);
       this.transferState.set(key, svgData);
 
       observer.next(svgData);
@@ -271,19 +285,22 @@ A loader for the client module that firstly checks the transfer state could
 look like that:
 
 ```typescript
+// svg-browser-loader.ts
+import { TransferState, makeStateKey } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { SvgLoader, SvgHttpLoader } from 'angular-svg-icon';
+
 export class SvgBrowserLoader implements SvgLoader {
   constructor(private transferState: TransferState,
     private http: HttpClient) {
   }
   getSvg(url: string): Observable<string> {
-    const key: StateKey<number> = makeStateKey<number>('transfer-svg:' + url);
-    const data = this.transferState.get(key, null);
-    // First we are looking for the translations in transfer-state, if none found, http load as fallback
+    const key = makeStateKey<string>('transfer-svg:' + url);
+    const data = this.transferState.get(key, '');
+    // Use transferred SVG text first; otherwise load over HTTP.
     if (data) {
-      return Observable.create(observer => {
-        observer.next(data);
-        observer.complete();
-      });
+      return of(data);
     } else {
       return new SvgHttpLoader(this.http).getSvg(url);
     }
@@ -297,19 +314,9 @@ provide one.
 
 ## Example Project with Angular Universal and `angular-svg-icon`
 
-An Angular Universal [example project](https://github.com/edulelis/demo-universal-angular-svg-loader) is also available. The basic steps to get it work is:
+An older Angular Universal [example project](https://github.com/edulelis/demo-universal-angular-svg-loader) is also available for reference. Its transfer-state modules and build configuration are for earlier Angular versions, not the Angular 19 integration above. Angular 19 provides `TransferState` from `@angular/core` without importing `ServerTransferStateModule` or `BrowserTransferStateModule`.
 
-1. Add this snippet to the `package.json` file to prevent compilation issues:
-```js
-        "browser": {
-          "fs": false,
-          "path": false,
-          "os": false
-        }
-```
-2. Add `ServerTransferStateModule` to `app.server.module`
-3. Add `BrowserTransferStateModule` to `app.module`
-4. The loader should be different per platform, so the factory should receive the `PLATFORM_ID` and load the correct class appropriately (this is already added in the example).
+Register `SvgBrowserLoader` in the shared/browser configuration using the same `loader` option, with a factory and `deps: [TransferState, HttpClient]`. Keep `SvgServerLoader` and its file-system imports in the server configuration only.
 
 ## SVG Preparation
 The SVG should be modified to remove the height and width attributes from the file
