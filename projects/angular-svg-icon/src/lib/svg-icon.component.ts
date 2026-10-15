@@ -41,6 +41,7 @@ export class SvgIconComponent implements OnDestroy {
 	svgStyle = input<{[klass: string]: any }|null>();
 
 	private helper = new SvgIconHelper();
+	private defaultAriaLabel: string|null = null;
 
 	constructor() {
 		// Watch for src or name changes
@@ -97,7 +98,7 @@ export class SvgIconComponent implements OnDestroy {
 		// Watch for svgAriaLabel changes
 		effect(() => {
 			const _ = this.svg();
-			this.doAria(this.svgAriaLabel()!);
+			this.doAria(this.svgAriaLabel());
 		});
 
 		// Watch for stretch changes
@@ -160,6 +161,7 @@ export class SvgIconComponent implements OnDestroy {
 				icon = onLoadCallback(icon, elem);
 			}
 
+			this.defaultAriaLabel = icon.getAttribute('aria-label');
 			elem.innerHTML = '';
 			this.renderer.appendChild(elem, icon);
 			this.helper.loaded = true;
@@ -261,20 +263,17 @@ export class SvgIconComponent implements OnDestroy {
 		}
 	}
 
-	private doAria(label: string) {
-    if (label !== undefined) {
-  		const svg = this.element.nativeElement.firstChild;
-	  	// If there is not a svgAriaLabel and the SVG has an arial-label, then do not override
-		  // the SVG's aria-label.
-		  if (svg && !svg.hasAttribute('aria-label')) {
-			  if (label === '') {
-				  this.renderer.setAttribute(svg, 'aria-hidden', 'true');
-				  this.renderer.removeAttribute(svg, 'aria-label');
-			  } else {
-			  	this.renderer.removeAttribute(svg, 'aria-hidden');
-			  	this.renderer.setAttribute(svg, 'aria-label', label);
-			  }
-		  }
-	  }
-  }
+	private doAria(label?: string) {
+		const svg = this.elemSvg;
+		if (!svg) return;
+
+		const ariaLabel = label === undefined ? this.defaultAriaLabel : label;
+		if (ariaLabel) {
+			this.renderer.removeAttribute(svg, 'aria-hidden');
+			this.renderer.setAttribute(svg, 'aria-label', ariaLabel);
+		} else {
+			this.renderer.setAttribute(svg, 'aria-hidden', 'true');
+			this.renderer.removeAttribute(svg, 'aria-label');
+		}
+	}
 }
